@@ -1,0 +1,8 @@
+{
+  "name": "semantic-release",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "semantic-release": "^21.0.1"
+  }
+}
