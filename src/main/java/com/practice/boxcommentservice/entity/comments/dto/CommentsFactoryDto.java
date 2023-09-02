@@ -31,5 +31,6 @@ public class CommentsFactoryDto {
     this.writerUuid = dto.getUserUuid();
     this.writerNickname = dto.getCommentsWriterNickname();
     this.writerProfileImagePath = dto.getCommentsWriterProfileImagePath();
+    this.content = dto.getCommentContent();
   }
 }

@@ -19,6 +19,7 @@ import com.practice.boxcommentservice.service.comments.dto.UpdateCommentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 /**
  * ScriptBoardsCommentsService.
@@ -26,6 +27,7 @@ import org.springframework.data.domain.Pageable;
  * @author : middlefitting
  * @since : 2023/09/02
  */
+@Service
 public class ScriptBoardsCommentsService implements
     CommentsService<ScriptBoardsCommentsEntity, ScriptBoardsCommentsPageResultDto> {
 

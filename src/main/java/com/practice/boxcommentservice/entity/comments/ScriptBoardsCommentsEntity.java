@@ -22,8 +22,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Table(name = "script_boards_comments",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"comment_board_id",
-        "comment_writer_uuid"}),
     indexes = {
         @Index(name = "idx_comment_writer_uuid", columnList = "comment_writer_uuid", unique = false),
         @Index(name = "idx_comment_board_id", columnList = "comment_board_id", unique = false),

@@ -96,8 +96,7 @@ public class ScriptBoardsCommentsRepositoryCustomImpl implements
   }
 
   private BooleanExpression boardIdCondition(CommentsPageConditionDto condition) {
-    return condition.getWriterUuid().isEmpty() ? null
-        : scriptBoardsCommentsEntity.boardId.eq(condition.getBoardId());
+    return scriptBoardsCommentsEntity.boardId.eq(condition.getBoardId());
   }
 
   private BooleanExpression contentSearch(CommentsPageConditionDto condition) {
