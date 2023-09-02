@@ -1,11 +1,11 @@
-package com.practice.boxcommentservice.service.comments.dto;
+package com.practice.boxcommentservice.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * DeleteCommentDto.
+ * RequestUpdateCommentDto.
  *
  * @author : middlefitting
  * @since : 2023/09/02
@@ -13,9 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeleteCommentDto {
+public class RequestPostCommentDto {
 
-  private long commentId;
-  private long commentBoardId;
-  private String userUuid;
+  private String commentContent;
 }

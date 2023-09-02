@@ -1,19 +1,19 @@
-package com.practice.boxcommentservice.service.comments.dto;
+package com.practice.boxcommentservice.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * GetCommentDto.
+ * RequestUpdateCommentDto.
  *
  * @author : middlefitting
  * @since : 2023/09/02
  */
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetCommentDto {
-  private long commentId;
-  private long commentBoardId;
+@Data
+public class RequestUpdateCommentDto {
+
+  private String commentContent;
 }

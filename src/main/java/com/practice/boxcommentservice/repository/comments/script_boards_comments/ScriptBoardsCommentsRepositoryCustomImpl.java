@@ -7,6 +7,7 @@ import com.practice.boxcommentservice.entity.comments.ScriptBoardsCommentsEntity
 import com.practice.boxcommentservice.repository.comments.dto.CommentsPageConditionDto;
 import com.practice.boxcommentservice.repository.comments.script_boards_comments.dto.QScriptBoardsCommentsPageResultDto;
 import com.practice.boxcommentservice.repository.comments.script_boards_comments.dto.ScriptBoardsCommentsPageResultDto;
+import com.practice.boxcommentservice.repository.comments.type.ServiceSearchCondition;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -58,11 +59,15 @@ public class ScriptBoardsCommentsRepositoryCustomImpl implements
                 scriptBoardsCommentsEntity.writerProfileImagePath,
                 scriptBoardsCommentsEntity.content,
                 scriptBoardsCommentsEntity.regDate,
-                scriptBoardsCommentsEntity.modDate
+                scriptBoardsCommentsEntity.modDate,
+                scriptBoardsCommentsEntity.type
             )
         ).from(scriptBoardsCommentsEntity)
         .where(
             writerUuidCondition(condition),
+            boardIdCondition(condition),
+            contentSearch(condition),
+            nicknameSearch(condition),
             scriptBoardsCommentsEntity.deleted.eq(false)
         )
         .orderBy(
@@ -76,6 +81,9 @@ public class ScriptBoardsCommentsRepositoryCustomImpl implements
         .selectFrom(scriptBoardsCommentsEntity)
         .where(
             writerUuidCondition(condition),
+            boardIdCondition(condition),
+            contentSearch(condition),
+            nicknameSearch(condition),
             scriptBoardsCommentsEntity.deleted.eq(false)
         );
     return PageableExecutionUtils.getPage(content, pageable,
@@ -85,5 +93,28 @@ public class ScriptBoardsCommentsRepositoryCustomImpl implements
   private BooleanExpression writerUuidCondition(CommentsPageConditionDto condition) {
     return condition.getWriterUuid().isEmpty() ? null
         : scriptBoardsCommentsEntity.writerUuid.eq(condition.getWriterUuid());
+  }
+
+  private BooleanExpression boardIdCondition(CommentsPageConditionDto condition) {
+    return condition.getWriterUuid().isEmpty() ? null
+        : scriptBoardsCommentsEntity.boardId.eq(condition.getBoardId());
+  }
+
+  private BooleanExpression contentSearch(CommentsPageConditionDto condition) {
+    if (!condition.getSearch().isEmpty() && (
+        condition.getSearchCondition() == ServiceSearchCondition.ALL
+            || condition.getSearchCondition() == ServiceSearchCondition.CONTENT)) {
+      return scriptBoardsCommentsEntity.content.contains(condition.getSearch());
+    }
+    return null;
+  }
+
+  private BooleanExpression nicknameSearch(CommentsPageConditionDto condition) {
+    if (!condition.getSearch().isEmpty() && (
+        condition.getSearchCondition() == ServiceSearchCondition.ALL
+            || condition.getSearchCondition() == ServiceSearchCondition.WRITER_NICKNAME)) {
+      return scriptBoardsCommentsEntity.writerNickname.contains(condition.getSearch());
+    }
+    return null;
   }
 }

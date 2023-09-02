@@ -1,6 +1,7 @@
 package com.practice.boxcommentservice.entity.comments;
 
 import com.practice.boxcommentservice.entity.BaseEntity;
+import com.practice.boxcommentservice.entity.comments.type.MyCommentsType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -55,6 +56,10 @@ public class ScriptBoardsCommentsEntity extends BaseEntity implements CommentEnt
   @Column(name = "comment_deleted")
   private boolean deleted;
 
+  @Column(name = "comment_type", nullable = false)
+  private MyCommentsType type;
+
+
   @Builder
   public ScriptBoardsCommentsEntity(Long boardId, String writerUuid, String writerNickname,
       String writerProfileImagePath, String content) {
@@ -64,5 +69,16 @@ public class ScriptBoardsCommentsEntity extends BaseEntity implements CommentEnt
     this.writerProfileImagePath = writerProfileImagePath;
     this.content = content;
     this.deleted = false;
+    this.type = MyCommentsType.SCRIPT_BOARDS;
+  }
+
+  @Override
+  public void update(String content) {
+    this.content = content;
+  }
+
+  @Override
+  public void delete() {
+    this.deleted = true;
   }
 }

@@ -17,4 +17,6 @@ public interface CommentsRepository<T extends CommentEntity, S extends CommentsP
     JpaRepository<T, Long>, CommentsBoardsRepositoryCustom<S> {
 
   Optional<T> findByIdAndDeleted(long commentId, boolean deleted);
+
+  Optional<T> findByIdAndBoardIdAndDeleted(long commentId, long boardId, boolean deleted);
 }

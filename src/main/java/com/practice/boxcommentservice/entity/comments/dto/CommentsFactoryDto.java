@@ -1,5 +1,6 @@
 package com.practice.boxcommentservice.entity.comments.dto;
 
+import com.practice.boxcommentservice.service.comments.dto.CreateCommentDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,4 +25,11 @@ public class CommentsFactoryDto {
   private String writerProfileImagePath;
 
   private String content;
+
+  public CommentsFactoryDto(CreateCommentDto dto) {
+    this.boardId = dto.getCommentsBoardId();
+    this.writerUuid = dto.getUserUuid();
+    this.writerNickname = dto.getCommentsWriterNickname();
+    this.writerProfileImagePath = dto.getCommentsWriterProfileImagePath();
+  }
 }

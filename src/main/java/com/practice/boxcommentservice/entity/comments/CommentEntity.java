@@ -1,5 +1,6 @@
 package com.practice.boxcommentservice.entity.comments;
 
+import com.practice.boxcommentservice.entity.comments.type.MyCommentsType;
 import java.time.LocalDateTime;
 
 /**
@@ -25,4 +26,10 @@ public interface CommentEntity {
   LocalDateTime getRegDate();
 
   LocalDateTime getModDate();
+
+  MyCommentsType getType();
+
+  void update(String content);
+
+  void delete();
 }

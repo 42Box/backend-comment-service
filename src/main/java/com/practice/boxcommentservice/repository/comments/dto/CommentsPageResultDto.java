@@ -2,12 +2,14 @@ package com.practice.boxcommentservice.repository.comments.dto;
 
 import com.practice.boxcommentservice.entity.comments.CommentEntity;
 import com.practice.boxcommentservice.entity.comments.ScriptBoardsCommentsEntity;
+import com.practice.boxcommentservice.entity.comments.type.MyCommentsType;
 import com.querydsl.core.annotations.QueryProjection;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.yaml.snakeyaml.comments.CommentType;
 
 /**
  * CommentsPageResultDto.
@@ -28,9 +30,10 @@ public class CommentsPageResultDto {
   protected String commentContent;
   protected LocalDateTime commentRegDate;
   protected LocalDateTime commentModDate;
+  protected MyCommentsType commentType;
 
 
-  public void initByScriptCommentEntity(CommentEntity entity) {
+  public CommentsPageResultDto(CommentEntity entity) {
     this.commentId = entity.getId();
     this.commentBoardId = entity.getBoardId();
     this.commentWriterUuid = entity.getWriterUuid();
@@ -39,5 +42,6 @@ public class CommentsPageResultDto {
     this.commentContent = entity.getContent();
     this.commentRegDate = entity.getRegDate();
     this.commentModDate = entity.getModDate();
+    this.commentType = entity.getType();
   }
 }

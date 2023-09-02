@@ -25,8 +25,9 @@ public class DefaultServiceException extends RuntimeException implements Service
     this.status = status;
   }
 
-  public DefaultServiceException(String envKey, EnvUtil envUtil) {
+  public DefaultServiceException(ERROR message, EnvUtil envUtil) {
     super();
+    String envKey = message.getEnvKey();
     this.msg = envUtil.getStringEnv(envKey + ".msg");
     this.code = envUtil.getIntegerEnv(envKey + ".code");
     this.status = envUtil.getHttpStatusEnv(envKey + ".status");
