@@ -3,6 +3,7 @@ package com.practice.boxcommentservice.global.utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.practice.boxcommentservice.global.env.EnvUtil;
 import com.practice.boxcommentservice.global.exception.DefaultServiceException;
+import com.practice.boxcommentservice.global.exception.ERROR;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +20,11 @@ public class JsonObjectConverter {
   private final ObjectMapper objectMapper;
   private final EnvUtil envUtil;
 
-  public <T> T convertToObject(String rawData, Class<T> type, String errMsg) {
+  public <T> T convertToObject(String rawData, Class<T> type, ERROR error) {
     try {
       return objectMapper.readValue(rawData, type);
     } catch (Exception e) {
-      throw new DefaultServiceException(errMsg, envUtil);
+      throw new DefaultServiceException(error, envUtil);
     }
   }
 }

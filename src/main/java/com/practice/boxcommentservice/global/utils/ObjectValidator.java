@@ -2,6 +2,7 @@ package com.practice.boxcommentservice.global.utils;
 
 import com.practice.boxcommentservice.global.env.EnvUtil;
 import com.practice.boxcommentservice.global.exception.DefaultServiceException;
+import com.practice.boxcommentservice.global.exception.ERROR;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
@@ -27,7 +28,7 @@ public class ObjectValidator {
     binder.validate();
     BindingResult results = binder.getBindingResult();
     if (results.hasErrors()) {
-      throw new DefaultServiceException("global.error.invalid-argument-request", envUtil);
+      throw new DefaultServiceException(ERROR.GLOBAL_ARGUMENT, envUtil);
     }
   }
 }

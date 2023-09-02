@@ -2,6 +2,7 @@ package com.practice.boxcommentservice.global.aop.validate_nickname_header;
 
 import com.practice.boxcommentservice.global.env.EnvUtil;
 import com.practice.boxcommentservice.global.exception.DefaultServiceException;
+import com.practice.boxcommentservice.global.exception.ERROR;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -36,10 +37,10 @@ public class HeaderValidationAspect {
     String headerName = headerAuthCheck.headerName();
     HttpServletRequest request = attributes.getRequest();
     Optional<String> headerOpt = Optional.ofNullable(request.getHeader(headerName));
-    headerOpt.orElseThrow(() -> new DefaultServiceException("users.error.auth-failed", envUtil));
+    headerOpt.orElseThrow(() -> new DefaultServiceException(ERROR.GLOBAL_AUTH_FAILED, envUtil));
     String header = headerOpt.get();
     if (header.isEmpty()) {
-      throw new DefaultServiceException("users.error.auth-failed", envUtil);
+      throw new DefaultServiceException(ERROR.GLOBAL_AUTH_FAILED, envUtil);
     }
   }
 }
