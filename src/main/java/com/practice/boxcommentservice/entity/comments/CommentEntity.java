@@ -1,5 +1,7 @@
 package com.practice.boxcommentservice.entity.comments;
 
+import java.time.LocalDateTime;
+
 /**
  * CommentEntity.
  *
@@ -8,4 +10,19 @@ package com.practice.boxcommentservice.entity.comments;
  */
 public interface CommentEntity {
 
+  long getId();
+
+  Long getBoardId();
+
+  String getWriterUuid();
+
+  String getWriterNickname();
+
+  String getWriterProfileImagePath();
+
+  String getContent();
+
+  LocalDateTime getRegDate();
+
+  LocalDateTime getModDate();
 }
