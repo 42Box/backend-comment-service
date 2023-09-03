@@ -14,13 +14,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * ScriptBoardsComments.
+ * serviceBoardsComments.
  *
  * @author : middlefitting
  * @since : 2023/09/02
  */
 @Entity
-@Table(name = "script_boards_comments",
+@Table(name = "service_boards_comments",
     indexes = {
         @Index(name = "idx_comment_writer_uuid", columnList = "comment_writer_uuid", unique = false),
         @Index(name = "idx_comment_board_id", columnList = "comment_board_id", unique = false),
@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
     })
 @Getter
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
-public class ScriptBoardsCommentsEntity extends BaseEntity implements CommentEntity {
+public class ServiceBoardsCommentsEntity extends BaseEntity implements CommentEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,7 +58,7 @@ public class ScriptBoardsCommentsEntity extends BaseEntity implements CommentEnt
 
 
   @Builder
-  public ScriptBoardsCommentsEntity(Long boardId, String writerUuid, String writerNickname,
+  public ServiceBoardsCommentsEntity(Long boardId, String writerUuid, String writerNickname,
       String writerProfileImagePath, String content) {
     this.boardId = boardId;
     this.writerUuid = writerUuid;
@@ -66,7 +66,7 @@ public class ScriptBoardsCommentsEntity extends BaseEntity implements CommentEnt
     this.writerProfileImagePath = writerProfileImagePath;
     this.content = content;
     this.deleted = false;
-    this.type = MyCommentsType.SCRIPT_BOARDS;
+    this.type = MyCommentsType.SERVICE_BOARDS;
   }
 
   @Override
