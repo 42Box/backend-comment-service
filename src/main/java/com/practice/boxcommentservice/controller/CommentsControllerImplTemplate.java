@@ -3,7 +3,6 @@ package com.practice.boxcommentservice.controller;
 import com.practice.boxcommentservice.controller.dto.RequestPostCommentDto;
 import com.practice.boxcommentservice.controller.dto.RequestUpdateCommentDto;
 import com.practice.boxcommentservice.entity.comments.CommentEntity;
-import com.practice.boxcommentservice.global.env.EnvUtil;
 import com.practice.boxcommentservice.repository.comments.dto.CommentsPageConditionDto;
 import com.practice.boxcommentservice.repository.comments.dto.CommentsPageResultDto;
 import com.practice.boxcommentservice.repository.comments.type.ServiceSearchCondition;
