@@ -1,6 +1,7 @@
 package com.practice.boxcommentservice.repository.comments.service_boards_comments;
 
 
+import static com.practice.boxcommentservice.entity.comments.QScriptBoardsCommentsEntity.scriptBoardsCommentsEntity;
 import static com.practice.boxcommentservice.entity.comments.QServiceBoardsCommentsEntity.serviceBoardsCommentsEntity;
 
 import com.practice.boxcommentservice.entity.comments.ServiceBoardsCommentsEntity;
@@ -66,6 +67,7 @@ public class ServiceBoardsCommentsRepositoryCustomImpl implements
         .where(
             writerUuidCondition(condition),
             boardIdCondition(condition),
+            allSearchCondition(condition),
             contentSearch(condition),
             nicknameSearch(condition),
             serviceBoardsCommentsEntity.deleted.eq(false)
@@ -82,6 +84,7 @@ public class ServiceBoardsCommentsRepositoryCustomImpl implements
         .where(
             writerUuidCondition(condition),
             boardIdCondition(condition),
+            allSearchCondition(condition),
             contentSearch(condition),
             nicknameSearch(condition),
             serviceBoardsCommentsEntity.deleted.eq(false)
@@ -96,13 +99,22 @@ public class ServiceBoardsCommentsRepositoryCustomImpl implements
   }
 
   private BooleanExpression boardIdCondition(CommentsPageConditionDto condition) {
-    return serviceBoardsCommentsEntity.boardId.eq(condition.getBoardId());
+    return (condition.getBoardId() > 0) ? serviceBoardsCommentsEntity.boardId.eq(
+        condition.getBoardId()) : null;
+  }
+
+  private BooleanExpression allSearchCondition(CommentsPageConditionDto condition) {
+    if (!condition.getSearch().isEmpty()
+        && (condition.getSearchCondition() == ServiceSearchCondition.ALL)) {
+      return serviceBoardsCommentsEntity.content.contains(condition.getSearch())
+          .or(serviceBoardsCommentsEntity.writerNickname.contains(condition.getSearch()));
+    }
+    return null;
   }
 
   private BooleanExpression contentSearch(CommentsPageConditionDto condition) {
     if (!condition.getSearch().isEmpty() && (
-        condition.getSearchCondition() == ServiceSearchCondition.ALL
-            || condition.getSearchCondition() == ServiceSearchCondition.CONTENT)) {
+        condition.getSearchCondition() == ServiceSearchCondition.CONTENT)) {
       return serviceBoardsCommentsEntity.content.contains(condition.getSearch());
     }
     return null;
@@ -110,8 +122,7 @@ public class ServiceBoardsCommentsRepositoryCustomImpl implements
 
   private BooleanExpression nicknameSearch(CommentsPageConditionDto condition) {
     if (!condition.getSearch().isEmpty() && (
-        condition.getSearchCondition() == ServiceSearchCondition.ALL
-            || condition.getSearchCondition() == ServiceSearchCondition.WRITER_NICKNAME)) {
+        condition.getSearchCondition() == ServiceSearchCondition.WRITER_NICKNAME)) {
       return serviceBoardsCommentsEntity.writerNickname.contains(condition.getSearch());
     }
     return null;

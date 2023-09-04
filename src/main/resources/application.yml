@@ -7,7 +7,7 @@ spring:
     include: env
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: false
     generate-ddl: true
     defer-datasource-initialization: true

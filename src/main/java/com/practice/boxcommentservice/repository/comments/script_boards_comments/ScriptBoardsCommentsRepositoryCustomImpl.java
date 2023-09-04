@@ -66,6 +66,7 @@ public class ScriptBoardsCommentsRepositoryCustomImpl implements
         .where(
             writerUuidCondition(condition),
             boardIdCondition(condition),
+            allSearchCondition(condition),
             contentSearch(condition),
             nicknameSearch(condition),
             scriptBoardsCommentsEntity.deleted.eq(false)
@@ -82,6 +83,7 @@ public class ScriptBoardsCommentsRepositoryCustomImpl implements
         .where(
             writerUuidCondition(condition),
             boardIdCondition(condition),
+            allSearchCondition(condition),
             contentSearch(condition),
             nicknameSearch(condition),
             scriptBoardsCommentsEntity.deleted.eq(false)
@@ -96,13 +98,22 @@ public class ScriptBoardsCommentsRepositoryCustomImpl implements
   }
 
   private BooleanExpression boardIdCondition(CommentsPageConditionDto condition) {
-    return scriptBoardsCommentsEntity.boardId.eq(condition.getBoardId());
+    return (condition.getBoardId() > 0) ? scriptBoardsCommentsEntity.boardId.eq(
+        condition.getBoardId()) : null;
+  }
+
+  private BooleanExpression allSearchCondition(CommentsPageConditionDto condition) {
+    if (!condition.getSearch().isEmpty()
+        && (condition.getSearchCondition() == ServiceSearchCondition.ALL)) {
+      return scriptBoardsCommentsEntity.content.contains(condition.getSearch())
+          .or(scriptBoardsCommentsEntity.writerNickname.contains(condition.getSearch()));
+    }
+    return null;
   }
 
   private BooleanExpression contentSearch(CommentsPageConditionDto condition) {
     if (!condition.getSearch().isEmpty() && (
-        condition.getSearchCondition() == ServiceSearchCondition.ALL
-            || condition.getSearchCondition() == ServiceSearchCondition.CONTENT)) {
+        condition.getSearchCondition() == ServiceSearchCondition.CONTENT)) {
       return scriptBoardsCommentsEntity.content.contains(condition.getSearch());
     }
     return null;
@@ -110,8 +121,7 @@ public class ScriptBoardsCommentsRepositoryCustomImpl implements
 
   private BooleanExpression nicknameSearch(CommentsPageConditionDto condition) {
     if (!condition.getSearch().isEmpty() && (
-        condition.getSearchCondition() == ServiceSearchCondition.ALL
-            || condition.getSearchCondition() == ServiceSearchCondition.WRITER_NICKNAME)) {
+        condition.getSearchCondition() == ServiceSearchCondition.WRITER_NICKNAME)) {
       return scriptBoardsCommentsEntity.writerNickname.contains(condition.getSearch());
     }
     return null;
