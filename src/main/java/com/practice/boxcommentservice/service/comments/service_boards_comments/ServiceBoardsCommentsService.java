@@ -1,5 +1,6 @@
 package com.practice.boxcommentservice.service.comments.service_boards_comments;
 
+import com.practice.boxcommentservice.client.board_client.ServiceBoardClient;
 import com.practice.boxcommentservice.entity.comments.ServiceBoardsCommentsEntity;
 import com.practice.boxcommentservice.entity.comments.ServiceBoardsCommentsFactory;
 import com.practice.boxcommentservice.global.env.EnvUtil;
@@ -36,9 +37,11 @@ public class ServiceBoardsCommentsService implements
       ServiceBoardsCommentsRepository commentsRepository,
       ServiceBoardsCommentsFactory commentsEntityFactory,
       ServiceBoardsCommentsPageResultFactory commentsPageResultFactory,
-      EnvUtil envUtil) {
+      EnvUtil envUtil,
+      ServiceBoardClient serviceBoardClient) {
     this.commentsServiceImplTemplate = new CommentsServiceImplTemplate<>(
-        commentsRepository, commentsEntityFactory, commentsPageResultFactory, envUtil);
+        commentsRepository, commentsEntityFactory, commentsPageResultFactory, envUtil,
+        serviceBoardClient);
   }
 
   @Override

@@ -1,7 +1,6 @@
 package com.practice.boxcommentservice.repository.comments.service_boards_comments;
 
 
-import static com.practice.boxcommentservice.entity.comments.QScriptBoardsCommentsEntity.scriptBoardsCommentsEntity;
 import static com.practice.boxcommentservice.entity.comments.QServiceBoardsCommentsEntity.serviceBoardsCommentsEntity;
 
 import com.practice.boxcommentservice.entity.comments.ServiceBoardsCommentsEntity;

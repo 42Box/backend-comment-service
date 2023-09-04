@@ -1,5 +1,6 @@
 package com.practice.boxcommentservice.service.comments;
 
+import com.practice.boxcommentservice.client.board_client.BoardsClient;
 import com.practice.boxcommentservice.entity.comments.CommentEntity;
 import com.practice.boxcommentservice.entity.comments.CommentsEntityFactory;
 import com.practice.boxcommentservice.entity.comments.dto.CommentsFactoryDto;
@@ -17,6 +18,7 @@ import com.practice.boxcommentservice.service.comments.dto.UpdateCommentDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -32,22 +34,31 @@ public class CommentsServiceImplTemplate<ENTITY extends CommentEntity, RES_DTO e
   private final CommentsEntityFactory<ENTITY> commentsEntityFactory;
   private final CommentsPageResultFactory<RES_DTO, ENTITY> commentsPageResultFactory;
   private final EnvUtil envUtil;
+  private final BoardsClient<ENTITY> boardsClient;
 
   public CommentsServiceImplTemplate(CommentsRepository<ENTITY, RES_DTO> commentsRepository,
       CommentsEntityFactory<ENTITY> commentsEntityFactory,
-      CommentsPageResultFactory<RES_DTO, ENTITY> commentsPageResultFactory, EnvUtil envUtil) {
+      CommentsPageResultFactory<RES_DTO, ENTITY> commentsPageResultFactory, EnvUtil envUtil,
+      BoardsClient<ENTITY> boardsClient) {
     this.commentsRepository = commentsRepository;
     this.commentsEntityFactory = commentsEntityFactory;
     this.commentsPageResultFactory = commentsPageResultFactory;
     this.envUtil = envUtil;
+    this.boardsClient = boardsClient;
   }
 
   @Override
+  @Transactional(rollbackFor = Exception.class)
   public RES_DTO createComment(CreateCommentDto dto) {
-    // 게시물 존재 여부 확인
     CommentsFactoryDto factoryDto = new CommentsFactoryDto(dto);
     ENTITY entity = commentsEntityFactory.create(factoryDto);
     commentsRepository.save(entity);
+    HttpStatus boardStatus = boardsClient.increaseComment(dto.getCommentsBoardId());
+    if (boardStatus == HttpStatus.NOT_FOUND) {
+      throw new DefaultServiceException(ERROR.BOARD_NOT_FOUND, envUtil);
+    } else if (boardStatus != HttpStatus.OK) {
+      throw new DefaultServiceException(ERROR.BOARD_SERVICE_ERROR, envUtil);
+    }
     return commentsPageResultFactory.create(entity);
   }
 
@@ -73,11 +84,18 @@ public class CommentsServiceImplTemplate<ENTITY extends CommentEntity, RES_DTO e
   }
 
   @Override
+  @Transactional(rollbackFor = Exception.class)
   public void deleteComment(DeleteCommentDto dto) {
     ENTITY entity = findByIDAndBoardIdAndDeleted(dto.getCommentId(), dto.getCommentBoardId());
     authCheck(entity, dto.getUserUuid());
     entity.delete();
     commentsRepository.save(entity);
+    HttpStatus boardStatus = boardsClient.decreaseComment(dto.getCommentBoardId());
+    if (boardStatus == HttpStatus.NOT_FOUND) {
+      throw new DefaultServiceException(ERROR.BOARD_NOT_FOUND, envUtil);
+    } else if (boardStatus != HttpStatus.OK) {
+      throw new DefaultServiceException(ERROR.BOARD_SERVICE_ERROR, envUtil);
+    }
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
