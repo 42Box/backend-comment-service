@@ -76,6 +76,9 @@ public class ServiceBoardsCommentsEntity extends BaseEntity implements CommentEn
 
   @Override
   public void delete() {
+    if (this.deleted) {
+      throw new IllegalStateException("이미 삭제된 댓글입니다.");
+    }
     this.deleted = true;
   }
 }

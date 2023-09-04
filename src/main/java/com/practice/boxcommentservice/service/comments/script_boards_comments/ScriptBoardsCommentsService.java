@@ -1,12 +1,10 @@
 package com.practice.boxcommentservice.service.comments.script_boards_comments;
 
-import com.practice.boxcommentservice.entity.comments.CommentsEntityFactory;
+import com.practice.boxcommentservice.client.board_client.ScriptBoardClient;
 import com.practice.boxcommentservice.entity.comments.ScriptBoardsCommentsEntity;
 import com.practice.boxcommentservice.entity.comments.ScriptBoardsCommentsFactory;
 import com.practice.boxcommentservice.global.env.EnvUtil;
-import com.practice.boxcommentservice.repository.comments.CommentsRepository;
 import com.practice.boxcommentservice.repository.comments.dto.CommentsPageConditionDto;
-import com.practice.boxcommentservice.repository.comments.dto.CommentsPageResultFactory;
 import com.practice.boxcommentservice.repository.comments.script_boards_comments.ScriptBoardsCommentsRepository;
 import com.practice.boxcommentservice.repository.comments.script_boards_comments.dto.ScriptBoardsCommentsPageResultDto;
 import com.practice.boxcommentservice.repository.comments.script_boards_comments.dto.ScriptBoardsCommentsPageResultFactory;
@@ -39,9 +37,11 @@ public class ScriptBoardsCommentsService implements
       ScriptBoardsCommentsRepository commentsRepository,
       ScriptBoardsCommentsFactory commentsEntityFactory,
       ScriptBoardsCommentsPageResultFactory commentsPageResultFactory,
-      EnvUtil envUtil) {
+      EnvUtil envUtil,
+      ScriptBoardClient scriptBoardClient) {
     this.commentsServiceImplTemplate = new CommentsServiceImplTemplate<>(
-        commentsRepository, commentsEntityFactory, commentsPageResultFactory, envUtil);
+        commentsRepository, commentsEntityFactory, commentsPageResultFactory, envUtil,
+        scriptBoardClient);
   }
 
   @Override
