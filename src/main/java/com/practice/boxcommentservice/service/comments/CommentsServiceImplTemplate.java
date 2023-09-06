@@ -48,7 +48,6 @@ public class CommentsServiceImplTemplate<ENTITY extends CommentEntity, RES_DTO e
   }
 
   @Override
-  @Transactional(rollbackFor = Exception.class)
   public RES_DTO createComment(CreateCommentDto dto) {
     CommentsFactoryDto factoryDto = new CommentsFactoryDto(dto);
     ENTITY entity = commentsEntityFactory.create(factoryDto);
@@ -84,7 +83,6 @@ public class CommentsServiceImplTemplate<ENTITY extends CommentEntity, RES_DTO e
   }
 
   @Override
-  @Transactional(rollbackFor = Exception.class)
   public void deleteComment(DeleteCommentDto dto) {
     ENTITY entity = findByIDAndBoardIdAndDeleted(dto.getCommentId(), dto.getCommentBoardId());
     authCheck(entity, dto.getUserUuid());
